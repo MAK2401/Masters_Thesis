@@ -1,0 +1,4 @@
+# requirements.txt
+biopython>=1.81
+gemmi>=0.6.0        # optional but recommended for CIF conversion
+pandas>=2.0         # optional — for downstream analysis notebooks
