@@ -20,10 +20,13 @@ df_E$group <- factor(df_E$group, levels = c("Mock", "siEMC3", "siMIDN"))
 
 summary_E <- df_E %>%
   group_by(group) %>%
-  summarise(mean_val = mean(value), sem_val = sd(value)/sqrt(n()), .groups = "drop")
-
+  summarise(
+    mean_val = mean(value),
+    sd_val = sd(value),
+    .groups = "drop"
+  )
 # ============================
-# STATS — one-sample t-test vs Mock, log-transformed (same method as panel C)
+# STATS — one-sample t-test vs Mock, log-transformed
 # ============================
 # NOTE: as in the panel C script, the "control" vector for each treatment is
 # just rep(100, n), so a paired t-test against it is mathematically identical
@@ -73,7 +76,7 @@ annot_text_E <- paste0(paste(annot_lines_E, collapse = "; "),
 # ============================
 p_E <- ggplot(summary_E, aes(x = group, y = mean_val, fill = group)) +
   geom_bar(stat = "identity", width = 0.5, color = "black", linewidth = 1.1) +
-  geom_errorbar(aes(ymin = mean_val - sem_val, ymax = mean_val + sem_val),
+  geom_errorbar(aes(ymin = mean_val - sd_val, ymax = mean_val + sd_val),
                 width = 0.15, linewidth = 0.5) +
   geom_jitter(data = df_E, aes(x = group, y = value),
               width = 0.06, size = 2.4, shape = 24, fill = "black",
